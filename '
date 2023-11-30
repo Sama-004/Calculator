@@ -11,12 +11,17 @@ const currentOpreationScreen = document.getElementById("currentoperation");
 const allclearButton = document.getElementById("allclear");
 const deleteButton = document.getElementById("delete");
 
+window.addEventListener("keydown", handleKeyboardInput);
 equalsButton.addEventListener("click", evaluate);
 allclearButton.addEventListener("click", allClear);
 deleteButton.addEventListener("click", deleteNum);
 pointButton.addEventListener("click", decimal);
-numberButtons.forEach((button) => button.addEventListener("click", () => appendNumber(button.textContent)));
-operationButtons.forEach((button) => button.addEventListener("click", () => setOperation(button.textContent)));
+numberButtons.forEach((button) =>
+  button.addEventListener("click", () => appendNumber(button.textContent))
+);
+operationButtons.forEach((button) =>
+  button.addEventListener("click", () => setOperation(button.textContent))
+);
 
 function appendNumber(number) {
   if (currentOpreationScreen.textContent === "0" || shouldresetScreen)
@@ -57,23 +62,22 @@ function setOperation(operator) {
   lastOperationScreen.textContent = `${firstOperand} ${currentOperation}`;
   shouldresetScreen = true;
 }
-
 function evaluate() {
   if (currentOperation === null || shouldresetScreen) return;
-  secondOperand = currentOpreationScreen.textContent;
-
-  if (currentOperation === "÷" && parseFloat(secondOperand) === 0) {
+  if (currentOperation === "+" && currentOpreationScreen.textContent === "0") {
     alert("You can't divide by 0!");
     return;
   }
-
+  secondOperand = currentOpreationScreen.textContent;
   currentOpreationScreen.textContent = roundResult(
     operate(currentOperation, firstOperand, secondOperand)
   );
   lastOperationScreen.textContent = `${firstOperand} ${currentOperation} ${secondOperand} =`;
   currentOperation = null;
 }
+
 let roundResult = (number) => Math.round(number*1000)/1000;
+
 let handleKeyboardInput= (e) => {
   if (e.key >= 0 && e.key <= 9) appendNumber(e.key);
   if (e.key === ".") decimal();
@@ -82,16 +86,13 @@ let handleKeyboardInput= (e) => {
   if (e.key === "Escape") allClear();
   if (e.key === "+" || e.key === "-" || e.key === "*" || e.key === "/")
     setOperation(convertOperator(e.key));
-};
-
+}
 let convertOperator=(keyboardOperator) => {
   if (keyboardOperator === "/") return "÷";
   if (keyboardOperator === "*") return "×";
   if (keyboardOperator === "-") return "−";
   if (keyboardOperator === "+") return "+";
 }
-window.addEventListener("keydown", handleKeyboardInput);
-
 let sum=(a,b) => a+b;
 let subtract=(a,b) => a-b;
 let multiply=(a,b) => a*b;

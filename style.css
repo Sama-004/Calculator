@@ -1,7 +1,12 @@
 *,*::before,*::after{
 box-sizing: border-box;
-font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+font-family: 'Raleway', sans-serif;
 font-weight: normal;
+}
+html {
+/* footer always at bottom */
+  position: relative;
+  min-height: 100%;
 }
 body{
 padding: 0;
